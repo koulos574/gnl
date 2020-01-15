@@ -1,105 +1,60 @@
-
 #include "get_next_line.h"
-/*
-int		next_line(char **str, char **line, int fd)
-{
-	int		len;
-	char	*basket;
+#include <stdio.h>
 
-	len = 0;
-	while ((str[fd][len] != '\n') && (str[fd][len] != '\0'))
+int		find(char *str)
+{
+	int	a;
+
+	a = 0;
+	while ((str[a] != '\0') && (str[a] != '\n'))
 	{
-		len++;
+		a++;
+		printf("%d%c\n",a,str[a]);
 	}
-	if (str[fd][len] == '\n')
-	{
-		*line = ft_strsub(str[fd], 0, len);
-		basket = ft_strdup(str[fd] + len + 1);
-		ft_strdel(&str[fd]);
-		str[fd] = basket;
-		if (str[fd][0] == '\0')
-			ft_strdel(&str[fd]);
-	}
-	else if (str[fd][len] == '\0')
-	{
-		*line = ft_strdup(str[fd]);
-		ft_strdel(&str[fd]);
-	}
-	return (1);
+	return (a);
 }
 
-int		get_next_line(const int fd, char **line)
+int		go_read(char **str, const int fd, char **line)
 {
-	char			*temp;
-	static char		*str[MAX_FD];
-	char			buff[BUFF_SIZE + 1];
-	int				res;
-
-	if (fd < 0 || fd > MAX_FD || line == NULL)
-		return (-1);
-	if (!str[fd])
-		str[fd] = ft_strnew(1);
-	while ((res = read(fd, buff, BUFF_SIZE)) > 0)
-	{
-		buff[res] = '\0';
-		temp = ft_strjoin(str[fd], buff);
-		ft_strdel(&str[fd]);
-		str[fd] = temp;
-		if (ft_strchr(temp, '\n'))
-			break ;
-	}
-	if (res == -1 || (res == 0 && (str[fd] == NULL || str[fd][0] == '\0')))
-		return (res);
-	return (next_line(str, line, fd));
-}*/
-
-int		go_line(char **str, char **line, int fd)
-{
-	int		i;
 	char	*tmp;
+	int		z;
 
-	i = 0;
-	while ((str[fd][i] != '\n') && (str[fd][i] != '\0'))
-		i++;
-	if (str[fd][i] == '\n')
+	z = find(*str);
+	if (*str[z] == '\n')
 	{
-		*line = ft_strsub(str[fd], 0, i);
-		tmp = ft_strdup(str[fd] + i + 1);
-		ft_strdel(&str[fd]);
-		str[fd] = tmp;
-		if (str[fd][0] == '\0')
-			ft_strdel(&str[fd]);
+		*line = ft_strsub(*str, 0, z);
+		printf("line %s\n",*line);
+		*str = ft_strchr(*str, '\n');
+		printf("str : %s\n",*str);
 	}
-	else if (str[fd][i] == '\0')
+	else if ((tmp = ft_strchr(*str, '\0')))
 	{
-		*line = ft_strdup(str[fd]);
-		ft_strdel(&str[fd]);
+		*line = ft_strdup(*str);
+		free(str);
+		return (0);
 	}
 	return (1);
 }
 
 int		get_next_line(const int fd, char **line)
 {
-	static char		*str[MAX_FD];
+	static char		*str;
 	char			*tmp;
-	char			buff[BUFF_SIZE + 1];
+	char			buff[BUFFER_SIZE + 1];
 	int				ret;
 
-	if (fd < 0 || BUFF_SIZE < 1 || read(fd, buff, 0) < 0 || !line)
-		return (-1);
-	if (!str[fd])
-		str[fd] = ft_strnew(1);
-	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
+	if (!line || fd < 0 || BUFFER_SIZE < 1)
+		return (-1);;
+	while ((ret = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
 		buff[ret] = '\0';
-		tmp = ft_strjoin(str[fd], buff);
-		ft_strdel(&str[fd]);
-		str[fd] = tmp;
-		if (ft_strchr(tmp, '\n'))
-			break ;
+		if (!str)
+			str = ft_strnew(1);
+		tmp = ft_strjoin(str, buff);
+		free(str);
+		str = tmp;
+		if (ft_strchr(str, '\n'))
+			break;
 	}
-	if (ret < 0 || (ret == 0 && (str[fd] == NULL || str[fd][0] == '\0')))
-		return (ret);
-	else
-		return (go_line(str, line, fd));
+	return (go_read(&str,fd, line));
 }
