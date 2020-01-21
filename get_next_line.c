@@ -28,14 +28,15 @@ int		go_read(char **str, const int fd, char **line)
 	int		z;
 
 	z = find(str[fd]);
-	if ((tmp = ft_strchr(str[fd], '\n')))
+	if (ft_strchr(str[fd], '\n'))
 	{
 		*line = ft_strsub(str[fd], 0, z);
 		tmp = ft_strdup(str[fd] + z + 1);
 		ft_strdel(&str[fd]);
 		str[fd] = ft_strdup(tmp);
+		free(tmp);
 	}
-	else if ((tmp = ft_strchr(str[fd], '\0')))
+	else if (ft_strchr(str[fd], '\0'))
 	{
 		*line = ft_strdup(str[fd]);
 		ft_strdel(&str[fd]);

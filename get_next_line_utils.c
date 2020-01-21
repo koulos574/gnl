@@ -52,6 +52,15 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (dest);
 }
 
+size_t		ft_strlen(const char *s)
+{
+	size_t i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*res;
@@ -73,15 +82,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-size_t		ft_strlen(const char *s)
-{
-	size_t i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 
 char	*ft_strdup(const char *s)
 {

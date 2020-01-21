@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <string.h>
-# include "libft/libft.h"
 
 # define FD 4096
 # ifndef BUFFER_SIZE
@@ -32,5 +31,6 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s);
 void	ft_strdel(char **as);
+size_t	ft_strlen(const char *str);
 
 #endif
