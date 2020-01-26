@@ -6,11 +6,40 @@
 /*   By: vifontai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 00:28:31 by vifontai          #+#    #+#             */
-/*   Updated: 2020/01/16 00:28:33 by vifontai         ###   ########.fr       */
+/*   Updated: 2020/01/24 01:17:40 by vifontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*str;
+
+	i = 0;
+	if (s == NULL)
+		return (NULL);
+	if (!(str = (char *)malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	while (len > 0 && s[start])
+	{
+		str[i++] = s[start++];
+		len--;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_strnew(size_t size)
+{
+	char *s;
+
+	if (!(s = (char *)malloc(sizeof(char) * size + 1)))
+		return (NULL);
+	ft_memset(s, 0, sizeof(char) * size + 1);
+	return (s);
+}
 
 int		find(char *str)
 {
@@ -62,7 +91,7 @@ int		get_next_line(const int fd, char **line)
 		free(str[fd]);
 		str[fd] = tmp;
 		if (ft_strchr(str[fd], '\n'))
-			break;
+			break ;
 	}
 	if (ret < 0)
 		return (-1);

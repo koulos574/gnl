@@ -6,7 +6,7 @@
 /*   By: vifontai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 00:28:44 by vifontai          #+#    #+#             */
-/*   Updated: 2020/01/16 00:28:47 by vifontai         ###   ########.fr       */
+/*   Updated: 2020/01/24 01:16:53 by vifontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s);
 void	ft_strdel(char **as);
-size_t	ft_strlen(const char *str);
 
 #endif

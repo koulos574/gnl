@@ -6,7 +6,7 @@
 /*   By: vifontai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 00:28:39 by vifontai          #+#    #+#             */
-/*   Updated: 2020/01/16 00:28:40 by vifontai         ###   ########.fr       */
+/*   Updated: 2020/01/24 01:18:23 by vifontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,6 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (dest);
 }
 
-size_t		ft_strlen(const char *s)
-{
-	size_t i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*res;
@@ -69,11 +60,16 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[j])
+		j++;
+	while (s2[i])
+		i++;
+	if (!(res = (char *)malloc(sizeof(char) * (j + i + 1))))
+		return (NULL);
 	j = 0;
 	i = -1;
-	if (!(res = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)
-			+ 1))))
-		return (NULL);
 	while (s1[++i])
 		res[i] = s1[i];
 	while (s2[j])
@@ -81,7 +77,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	res[i] = '\0';
 	return (res);
 }
-
 
 char	*ft_strdup(const char *s)
 {
@@ -101,33 +96,4 @@ char	*ft_strdup(const char *s)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
-
-char	*ft_strnew(size_t size)
-{
-	char *s;
-
-	if (!(s = (char *)malloc(sizeof(char) * size + 1)))
-	return (NULL);
-	ft_memset(s,0,sizeof(char)*size + 1);
-	return (s);
-}
-
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
-{
-	size_t	i;
-	char	*str;
-
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	if (!(str = (char *)malloc(sizeof(char) * len + 1)))
-		return (NULL);
-	while (len > 0 && s[start])
-	{
-		str[i++] = s[start++];
-		len--;
-	}
-	str[i] = '\0';
-	return (str);
 }
